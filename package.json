@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "author": "ethanfrey <ethanfrey@users.noreply.github.com>",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/bundle.js",
   "homepage": "https://github.com/confio/browsedown",
   "repository": {
     "type": "git",
@@ -15,13 +15,14 @@
     "url": "https://github.com/confio/browsedown/issues"
   },
   "scripts": {
-    "build": "yarn format && yarn lint && yarn transpile",
+    "build": "yarn format && yarn lint && yarn webpack",
     "format": "prettier --write src/*.ts",
     "karma": "karma start karma.conf.js",
     "lint": "tslint *.ts",
     "lint-fix": "yarn lint --fix",
     "test": "yarn build && yarn karma",
-    "transpile": "tsc"
+    "transpile": "tsc",
+    "webpack": "webpack"
   },
   "devDependencies": {
     "@types/node": "^9.6.6",
@@ -33,11 +34,14 @@
     "karma-mocha": "^1.3.0",
     "mocha": "^5.1.1",
     "prettier": "1.12.1",
+    "ts-loader": "^4.3.0",
     "ts-node": "^6.0.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.12.0",
     "tslint-immutable": "^4.5.4",
-    "typescript": "^2.8.3"
+    "typescript": "^2.8.3",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
   },
   "dependencies": {
     "abstract-leveldown": "^4.0.3",

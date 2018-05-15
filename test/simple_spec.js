@@ -10,10 +10,13 @@ describe('IDBWrapper', function () {
 
   // console.log('Running ' + (excludeIE ? 'reduced' : 'full') + ' suite.');
 
-  describe('delete databases', function () {
+  it('always passes', function () {
     expect(1+1).to.equal(2);
   });
 
+  // it('never passes', function () {
+  //   expect(1+1).to.equal(3);
+  // });
 
   // describe('delete databases', function () {
   //     var store;

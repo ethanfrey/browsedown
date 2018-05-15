@@ -19,8 +19,8 @@ module.exports = function (config) {
     },
 
     files: [
-      'dist/index.js',
-      'test/**/*spec.js'
+      'dist/bundle.js',
+      'test/*spec.js'
     ]
   });
 };
