@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "author": "ethanfrey <ethanfrey@users.noreply.github.com>",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "homepage": "https://github.com/confio/browsedown",
   "repository": {
     "type": "git",
@@ -17,13 +17,21 @@
   "scripts": {
     "build": "yarn format && yarn lint && yarn transpile",
     "format": "prettier --write src/*.ts",
+    "karma": "karma start karma.conf.js",
     "lint": "tslint *.ts",
     "lint-fix": "yarn lint --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "yarn build && yarn karma",
     "transpile": "tsc"
   },
   "devDependencies": {
     "@types/node": "^9.6.6",
+    "chai": "^4.1.2",
+    "karma": "^2.0.2",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "mocha": "^5.1.1",
     "prettier": "1.12.1",
     "ts-node": "^6.0.1",
     "tslint": "^5.9.1",

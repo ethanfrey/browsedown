@@ -1,4 +1,13 @@
 import { AbstractLevelDOWN } from "abstract-leveldown";
+// export * from "idb-wrapper";
+
+/*
+Figure out how to compile typescript for the web....
+
+http://www.jbrantly.com/typescript-and-webpack/
+https://webpack.js.org/guides/typescript/
+
+*/
 
 type O = any;
 type GO = any;
