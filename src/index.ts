@@ -7,7 +7,7 @@ type DO = any;
 type K = any;
 type V = any;
 
-class BrowseDown extends AbstractLevelDOWN {
+export class BrowseDown extends AbstractLevelDOWN {
   _open(opts: O, callback: (err?: any) => void): void {}
 
   _close(callback: (err?: any) => void): void {}
