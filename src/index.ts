@@ -2,17 +2,9 @@ import { AbstractLevelDOWN } from "abstract-leveldown";
 
 // TODO: this should get the class from node_modules, not just
 // my type definition
-export { IDBStore } from "idb-wrapper";
+import IDBStore from "idb-wrapper";
 
-/*
-Figure out how to compile typescript for the web....
-
-http://www.jbrantly.com/typescript-and-webpack/
-https://webpack.js.org/guides/typescript/
-
-*/
-
-type O = any;
+type O = {};
 type GO = any;
 type PO = any;
 type DO = any;
@@ -29,4 +21,11 @@ export class BrowseDown extends AbstractLevelDOWN {
   _put(key: K, value: V, options: PO, callback: (err: any) => any): void {}
 
   _del(key: K, options: DO, callback: (err: any) => any): void {}
+}
+
+export function makeDB(
+  name: string,
+  onStoreReady: IDBWrapper.readyFn
+): IDBWrapper.IDBStore {
+  return new IDBStore({ storeName: name }, onStoreReady);
 }

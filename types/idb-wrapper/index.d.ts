@@ -1,13 +1,26 @@
-declare const Database: unique symbol;
-declare const ObjectStore: unique symbol;
-declare const Transaction: unique symbol;
-declare const KeyRange: unique symbol;
+// declare const Database: unique symbol;
+// declare const ObjectStore: unique symbol;
+// declare const Transaction: unique symbol;
+// declare const KeyRange: unique symbol;
 
-declare module 'idb-wrapper' {
-  export type readyFn = () => void;
-  export type errorFn = (err: any) => void;
-  export type resultFn = (val: Object) => void;
-  export type multiResultFn = (vals: Object[]) => void;
+// type IDBDatabase = typeof Database;
+// type IDBObjectStore = typeof ObjectStore;
+// type IDBTransaction = typeof Transaction;
+// type IDBKeyRange = typeof KeyRange;
+
+// import IDBStore = require('idb-wrapper');
+
+
+declare namespace IDBWrapper {
+  export interface IDBStoreConstructor {
+    new(kwargs?: InitOptions, onStoreReady?: readyFn): IDBStore;
+    IDBStore: IDBStore;
+  }
+
+  type readyFn = () => void;
+  type errorFn = (err: any) => void;
+  type resultFn = (val: Object) => void;
+  type multiResultFn = (vals: Object[]) => void;
 
   export interface IndexData {
     name: string;
@@ -16,7 +29,7 @@ declare module 'idb-wrapper' {
     multiEntry?: boolean;
   }
 
-  export enum ImplementationPreference {
+  enum ImplementationPreference {
     IndexedDB = 'indexedDB',
     WebKit = 'webkitIndexedDB',
     Mozilla = 'mozIndexedDB',
@@ -41,13 +54,13 @@ declare module 'idb-wrapper' {
     onError?: errorFn;
   }
 
-  export enum ArrayType {
+  enum ArrayType {
     Sparse = 'Sparse',
     Dense = 'Dense',
     Skip = 'Skip',
   }
 
-  export enum Order {
+  enum Order {
     ASC = 'ASC',
     DESC = 'DESC',
   }
@@ -61,7 +74,7 @@ declare module 'idb-wrapper' {
   }
 
   // these are shared between query and iterate
-  interface CommonOptions {
+  export interface CommonOptions {
     index?: string;
     order?: Order; // default: ASC
     filterDuplicates?: boolean; // default: false
@@ -88,10 +101,6 @@ declare module 'idb-wrapper' {
     keyField?: string;
   }
 
-  export interface IDBStoreConstructor {
-    new(kwargs?: InitOptions, onStoreReady?: readyFn): IDBStore;
-  }
-
   export interface IDBStore {
     autoIncrement: boolean;
     db: IDBDatabase;
@@ -107,6 +116,8 @@ declare module 'idb-wrapper' {
     storeName: string;
     storePrefix: string;
     version: string;
+
+    new (kwargs?: InitOptions, onStoreReady?: readyFn): IDBStore;
 
     // batch
     clear(onSuccess?: readyFn, onError?: errorFn): IDBTransaction;
@@ -135,13 +146,14 @@ declare module 'idb-wrapper' {
   // and can be considered opaque for now....
   // Maybe later we can make interfaces with the common functionality
 
-  export type IDBDatabase = typeof Database;
-  export type IDBObjectStore = typeof ObjectStore;
-  export type IDBTransaction = typeof Transaction;
-  export type IDBKeyRange = typeof KeyRange;
 
-  // export interface IDBDatabase {}
-  // export interface IDBObjectStore {}
-  // export interface IDBTransaction {}
-  // export interface IDBKeyRange {}
+  // interface IDBDatabase {}
+  // interface IDBObjectStore {}
+  // interface IDBTransaction {}
+  // interface IDBKeyRange {}
+}
+
+declare module 'idb-wrapper' {
+  const Default : IDBWrapper.IDBStoreConstructor;
+  export = Default;
 }

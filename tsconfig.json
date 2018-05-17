@@ -15,9 +15,8 @@
     "removeComments": true,
     "rootDir": "src",
     "sourceMap": true,
-    "strict": true,
-    "target": "es6",
-    "typeRoots": ["types"]
+    "strict": false,
+    "target": "es6"
   },
   "include": [
     "src/*"

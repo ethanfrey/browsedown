@@ -1,4 +1,4 @@
-describe('IDBWrapper', function () {
+describe('BrowseDown', function () {
   // if (typeof window.excludeIE == 'undefined') {
   //     try {
   //         IDBKeyRange.only([1]);
@@ -22,11 +22,7 @@ describe('IDBWrapper', function () {
       let store;
 
       before(function (done) {
-          store = new IDBStore({
-              storeName: 'spec-store-simple'
-          }, function () {
-              done();
-          });
+          store = BrowseDown.makeDB('spec-store-simple', done);
       });
 
       it('should delete the newly created database', function (done) {
