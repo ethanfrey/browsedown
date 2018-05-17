@@ -116,8 +116,7 @@ declare namespace IDBWrapper {
     // getIndexList
     hasIndex(indexName: string): boolean;
     // indexCompiles
-    iterate(onItem: (val: Object) => void|boolean, options?: IterateOptions): IDBTransaction;
-    // iterate: TODO
+    iterate(onItem: (val: Object, cursor: IDBCursor) => void|boolean, options?: IterateOptions): IDBTransaction;
     makeKeyRange(options: KeyRangeOptions): IDBKeyRange;
     // normalizeIndexData
     put(value: Object, onSuccess?: readyFn, onError?: errorFn): IDBTransaction;
@@ -137,6 +136,13 @@ declare namespace IDBWrapper {
   export interface IDBDatabase {
     close(): void;
   }
+
+  export interface IDBCursor {
+    // This is all we should touch during iteration....
+    readonly key: any;
+    readonly value: any;
+  }
+
   // interface IDBObjectStore {}
   // interface IDBTransaction {}
   // interface IDBKeyRange {}

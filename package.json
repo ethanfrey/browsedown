@@ -2,7 +2,7 @@
   "name": "browsedown",
   "description": "Browser implementation of level-down, using Indexdb-wrapper",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.9",
   "author": "ethanfrey <ethanfrey@users.noreply.github.com>",
   "license": "MIT",
   "main": "dist/browsedown.js",

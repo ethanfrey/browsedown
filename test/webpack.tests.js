@@ -11,6 +11,10 @@ import { all as getTest } from 'abstract-leveldown/abstract/get-test';
 import { all as putTest } from 'abstract-leveldown/abstract/put-test'; 
 import { all as putGetDelTest } from 'abstract-leveldown/abstract/put-get-del-test'; 
 
+// import { all as batchTest } from 'abstract-leveldown/abstract/batch-test'; 
+// import { all as chainedBatchTest } from 'abstract-leveldown/abstract/chained-batch-test'; 
+import { all as iteratorTest } from 'abstract-leveldown/abstract/iterator-test';
+
 import {BrowseDown} from '../src';
 import simple from './simple_spec';
 
@@ -34,3 +38,11 @@ putTest(factory, test);
 getTest(factory, test);
 delTest(factory, test);
 putGetDelTest(factory, test);
+
+// iterator
+iteratorTest(factory, test);
+
+
+// batch tests
+// batchTest(factory, test);
+

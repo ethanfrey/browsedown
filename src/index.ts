@@ -1,8 +1,7 @@
-import { AbstractLevelDOWN } from "abstract-leveldown";
-
-// TODO: this should get the class from node_modules, not just
-// my type definition
+import { AbstractIteratorOptions, AbstractLevelDOWN } from "abstract-leveldown";
 import IDBStore from "idb-wrapper";
+
+import { Iterator } from "./iterator";
 
 type O = object;
 
@@ -108,6 +107,13 @@ export class BrowseDown extends AbstractLevelDOWN<K, V, O, PO, GO, DO, IO, BO> {
       return callback(new Error("Database not open"));
     }
     this.idb.remove(key, callback, callback);
+  }
+
+  public _iterator(options: AbstractIteratorOptions<K>): Iterator {
+    if (this.idb == null) {
+      throw new Error("Database not open");
+    }
+    return new Iterator(this.idb, options);
   }
 
   private convertEncoding(key: any, value: any, options: PO): Model {
