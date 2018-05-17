@@ -1,4 +1,7 @@
 import { AbstractLevelDOWN } from "abstract-leveldown";
+
+// TODO: this should get the class from node_modules, not just
+// my type definition
 export { IDBStore } from "idb-wrapper";
 
 /*

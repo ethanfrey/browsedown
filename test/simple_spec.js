@@ -18,23 +18,22 @@ describe('IDBWrapper', function () {
   //   expect(1+1).to.equal(3);
   // });
 
-  // describe('delete databases', function () {
-  //     var store;
+  describe('delete databases', function () {
+      let store;
 
-  //     before(function (done) {
-  //         store = new idb.IDBStore({
-  //             storeName: 'spec-store-simple'
-  //         }, function () {
-  //             done();
-  //         });
-  //     });
+      before(function (done) {
+          store = new IDBStore({
+              storeName: 'spec-store-simple'
+          }, function () {
+              done();
+          });
+      });
 
-  //     it('should delete the newly created database', function (done) {
-  //         store.deleteDatabase(function (result) {
-  //             expect(result).to.be.ok;
-  //             done();
-  //         }, done);
-  //     });
-
-  // });
+      it('should delete the newly created database', function (done) {
+          store.deleteDatabase(function (result) {
+              expect(result).to.be.ok;
+              done();
+          }, err => assert(false, err));
+      });
+  });
 });
