@@ -5,5 +5,5 @@ x Add basic idb-wrapper tests in karma, should pass in browser
 x Implement basic (non-batch) operations like level.js
 x Basic test through leveldown interface
 
-* Add abstract-leveldown test suite
+x Add abstract-leveldown test suite
 * Implement all failing test functionality

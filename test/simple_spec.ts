@@ -5,7 +5,7 @@ import {TestCase} from 'tape';
 type Factory = (name: string) => AbstractLevelDOWN;
 type Test = (name: string, cb: TestCase) => void;
 
-function openClose(test: Test, factory: Factory): void {
+function openClose(factory: Factory, test: Test): void {
   test('should open and close db', t => {
     const store = factory('open-close-test');
     // TODO: is there a way to avoid these callbacks?
@@ -19,7 +19,7 @@ function openClose(test: Test, factory: Factory): void {
   });
 };
 
-function readWrite(test: Test, factory: Factory): void {
+function readWrite(factory: Factory, test: Test): void {
   test('should put and get data', t => {
     const store = factory('put-get-test-2');
     // TODO: is there a way to avoid these callbacks?
@@ -47,9 +47,9 @@ function readWrite(test: Test, factory: Factory): void {
   });
 };
 
-function all(test: Test, factory: Factory): void {
-  openClose(test, factory);
-  readWrite(test, factory);
+function all(factory: Factory, test: Test): void {
+  openClose(factory, test);
+  readWrite(factory, test);
 };
 
 module.exports = {
