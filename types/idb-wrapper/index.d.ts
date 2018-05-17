@@ -40,7 +40,7 @@ declare namespace IDBWrapper {
     storeName?: string; // Default: 'Store'
     storePrefix?: string; // Default: 'IDBWrapper-'
     dbVersion?: number; // Default: 1
-    keyPath?: string; // Default: 'id'
+    keyPath?: string | null; // Default: 'id'
     autoincrement?: boolean; // Default: true
     onStoreReady?: readyFn;
     onError?: errorFn;
@@ -147,7 +147,9 @@ declare namespace IDBWrapper {
   // Maybe later we can make interfaces with the common functionality
 
 
-  // interface IDBDatabase {}
+  export interface IDBDatabase {
+    close(): void;
+  }
   // interface IDBObjectStore {}
   // interface IDBTransaction {}
   // interface IDBKeyRange {}

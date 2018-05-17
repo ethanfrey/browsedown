@@ -32,4 +32,46 @@ describe('BrowseDown', function () {
           }, err => assert(false, err));
       });
   });
+
+  describe('try abstract interface', function() {
+    it('should open and close db', function(done) {
+        let store = new BrowseDown.BrowseDown('open-close-test');
+        // TODO: is there a way to avoid these callbacks?
+        store.open(result => {
+            expect(result).to.equal(undefined);
+            store.close(result => {
+                expect(result).to.equal(undefined);
+                done();
+            });
+        });
+    })
+
+    it('should put and get data', function(done) {
+        let store = new BrowseDown.BrowseDown('put-get-test');
+        // TODO: is there a way to avoid these callbacks?
+        store.open(err => {
+            expect(err).to.be.undefined;
+            store.get('foo', err => {
+                // not found error....
+                expect(err).to.be.an('error');
+                // let's add it now
+                // TODO: this errors!
+                // let data = new Buffer('bar');
+                store.put('foo', 'bar', { raw: true }, err => {
+                    expect(err).to.be.undefined;
+                    store.get('foo', (err, val) => {
+                        // not found error....
+                        expect(err).to.be.null;
+                        expect(val.toString()).to.equal('bar');                                           
+                        store.close(err => {
+                            expect(err).to.be.undefined;
+                            done();
+                        });
+                    });                
+                });
+            });
+        });
+    });
+  });
 });
+  
