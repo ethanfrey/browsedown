@@ -1,5 +1,5 @@
 import { AbstractLevelDOWN } from "abstract-leveldown";
-// export * from "idb-wrapper";
+export { IDBStore } from "idb-wrapper";
 
 /*
 Figure out how to compile typescript for the web....
