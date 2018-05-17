@@ -1,16 +1,3 @@
-// declare const Database: unique symbol;
-// declare const ObjectStore: unique symbol;
-// declare const Transaction: unique symbol;
-// declare const KeyRange: unique symbol;
-
-// type IDBDatabase = typeof Database;
-// type IDBObjectStore = typeof ObjectStore;
-// type IDBTransaction = typeof Transaction;
-// type IDBKeyRange = typeof KeyRange;
-
-// import IDBStore = require('idb-wrapper');
-
-
 declare namespace IDBWrapper {
   export interface IDBStoreConstructor {
     new(kwargs?: InitOptions, onStoreReady?: readyFn): IDBStore;

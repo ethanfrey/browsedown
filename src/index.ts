@@ -16,11 +16,13 @@ interface PO {
   valueEncoding?: string;
 }
 
-type DO = any;
+type DO = object;
+type IO = object;
+type BO = object;
 type K = any;
 type V = any;
 
-export class BrowseDown extends AbstractLevelDOWN {
+export class BrowseDown extends AbstractLevelDOWN<K, V, O, PO, GO, DO, IO, BO> {
   protected idb: IDBWrapper.IDBStore | null;
 
   constructor(name: string) {
