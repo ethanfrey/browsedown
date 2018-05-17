@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 describe('BrowseDown', function () {
   // if (typeof window.excludeIE == 'undefined') {
   //     try {
@@ -44,7 +46,7 @@ describe('BrowseDown', function () {
                 done();
             });
         });
-    })
+    });
 
     it('should put and get data', function(done) {
         let store = new BrowseDown.BrowseDown('put-get-test');

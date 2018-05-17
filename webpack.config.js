@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 const path = require('path');
 
 const config = {
@@ -16,7 +18,7 @@ const config = {
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   }
-}
+};
 
 // module build is normal build to be imported in another
 // project

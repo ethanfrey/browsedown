@@ -9,7 +9,6 @@
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
     "typedef": [true, "call-signature"],
-    "no-delete": true,
     "interface-name": [true, "never-prefix"]
   },
   "rulesDirectory": []
