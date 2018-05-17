@@ -15,7 +15,7 @@
     "removeComments": true,
     "rootDir": "src",
     "sourceMap": true,
-    "strict": false,
+    "strict": true,
     "target": "es6"
   },
   "include": [

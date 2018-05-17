@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = {
+const config = {
   entry: './src/index.ts',
   mode: 'development',
   // devtool: 'inline-source-map',
@@ -15,11 +15,30 @@ module.exports = {
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
-  },
+  }
+}
+
+// module build is normal build to be imported in another
+// project
+const moduleOut = {
   output: {
-    filename: 'bundle.js',
+    filename: 'browsedown.js',
+    path: path.resolve(__dirname, 'dist'),
+  }
+};
+
+// we need the library build, so we can test in the browser
+// with karma tests
+const libaryOut = {
+  output: {
+    filename: 'library.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'var',
     library: 'BrowseDown'
   }
 };
+
+module.exports = [
+  Object.assign({}, config, moduleOut),
+  Object.assign({}, config, libaryOut)
+];

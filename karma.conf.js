@@ -19,7 +19,7 @@ module.exports = function (config) {
     },
 
     files: [
-      'dist/bundle.js',
+      'dist/library.js',
       'test/*spec.js'
     ]
   });
