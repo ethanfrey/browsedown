@@ -13,7 +13,7 @@
     "outDir": "dist",
     "pretty": true,
     "removeComments": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "sourceMap": true,
     "strict": true,
     "target": "es6"

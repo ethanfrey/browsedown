@@ -29,18 +29,18 @@ const moduleOut = {
   }
 };
 
-// we need the library build, so we can test in the browser
-// with karma tests
-const libaryOut = {
-  output: {
-    filename: 'library.js',
-    path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'var',
-    library: 'BrowseDown'
-  }
-};
+// // we need the library build, so we can test in the browser
+// // with karma tests
+// const libaryOut = {
+//   output: {
+//     filename: 'library.js',
+//     path: path.resolve(__dirname, 'dist'),
+//     libraryTarget: 'var',
+//     library: 'BrowseDown'
+//   }
+// };
 
 module.exports = [
-  Object.assign({}, config, moduleOut),
-  Object.assign({}, config, libaryOut)
+  Object.assign({}, config, moduleOut)
+  // ,Object.assign({}, config, libaryOut)
 ];
