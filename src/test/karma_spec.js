@@ -27,7 +27,7 @@ const openBasic = (factory, test) => {
 };
 
 // basic tests...
-// simple.all(browsedown, test);
+simple.all(browsedown, test);
 
 // closeTest(browsedown, test);
 // openBasic(browsedown, test);
@@ -40,20 +40,20 @@ const openBasic = (factory, test) => {
 
 const iteratorTest = (factory, test) => {
   iterTest.setUp(factory, test, testCommon);
-  iterTest.args(test);
-  iterTest.sequence(test);
+  // iterTest.args(test);
+  // iterTest.sequence(test);
   // broken due to batch
   iterTest.iterator(factory, test, testCommon);
-  iterTest.snapshot(factory, test, testCommon);
+  // iterTest.snapshot(factory, test, testCommon);
   iterTest.tearDown(test, testCommon);
 };
 
 // iterator
-try {
-  iteratorTest(browsedown, test);
-} catch (err) {
-  console.log('iterator errror', err);
-}
+// try {
+//   iteratorTest(browsedown, test);
+// } catch (err) {
+//   console.log('iterator errror', err);
+// }
 
 // batch tests
 // batchTest(browsedown, test);

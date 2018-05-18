@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-import {AbstractLevelDOWN} from 'abstract-leveldown';
+import {AbstractLevelDOWN, PutBatch} from 'abstract-leveldown';
 import {TestCase} from 'tape';
 
 type Factory = (name: string) => AbstractLevelDOWN;
@@ -47,9 +47,56 @@ function readWrite(factory: Factory, test: Test): void {
   });
 };
 
+function iterate(factory: Factory, test: Test): void {
+  test('should iterate over a batch', t => {
+    const store = factory('iterate-test');
+    // TODO: is there a way to avoid these callbacks?
+    store.open((err: any) => {
+      t.error(err);
+      // these must be in sorted order, as we check those
+      // in order from iterators
+      const batch : Array<PutBatch<any, any>> = [
+        {type: 'put', key: 'bar', value: 'barbar'},
+        {type: 'put', key: 'baz', value: 'bazbaz'},
+        {type: 'put', key: 'foo', value: 'foofoo'}
+      ];
+
+      const check = () => {
+        // const opts = { lt: 'das' };
+        // const count = 2;
+        const opts = undefined;
+        const count = 3;
+        const iter = store.iterator(opts);
+        // first calls gets data
+        let i = 0;
+        const checkVal = (err: any, key: any, val: any) => {
+          t.error(err);
+          if (i < count) {
+            t.equals(key.toString(), batch[i].key);
+            t.equals(val.toString(), batch[i].value);
+            i++;
+            // this works, process.nextTick doesn't
+            next();
+            // process.nextTick(next);
+          } else {
+            t.equals(key, undefined);
+            t.equals(val, undefined);
+            iter.end(() => t.end());
+          }
+        }
+        const next = () => iter.next(checkVal);
+        next();
+      };
+
+      store.batch(batch, check);
+    });
+  });
+}
+
 function all(factory: Factory, test: Test): void {
   openClose(factory, test);
   readWrite(factory, test);
+  iterate(factory, test);
 };
 
 module.exports = {
