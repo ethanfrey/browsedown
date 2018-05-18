@@ -1,5 +1,4 @@
 /* jshint esversion: 6 */
-
 import test from 'tape';
 
 // import entire abstract leveldown test suite....
@@ -15,7 +14,7 @@ import { all as putGetDelTest } from 'abstract-leveldown/abstract/put-get-del-te
 // import { all as chainedBatchTest } from 'abstract-leveldown/abstract/chained-batch-test'; 
 import { all as iteratorTest } from 'abstract-leveldown/abstract/iterator-test';
 
-import {BrowseDown} from '../src';
+import {BrowseDown} from '../store';
 import simple from './simple_spec';
 
 const factory = (name) => new BrowseDown(name);
@@ -45,4 +44,5 @@ iteratorTest(factory, test);
 
 // batch tests
 // batchTest(factory, test);
+// chainedBatchTest(factory, test);
 

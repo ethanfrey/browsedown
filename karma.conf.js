@@ -43,11 +43,11 @@ module.exports = function (config) {
     },
 
     files: [
-      'test/webpack.tests.js',
+      'src/test/karma_spec.js',
     ],
 
     preprocessors: {
-      'test/webpack.tests.js': ['webpack', 'sourcemap']
+      'src/test/karma_spec.js': ['webpack', 'sourcemap']
     },
 
     webpack: {
