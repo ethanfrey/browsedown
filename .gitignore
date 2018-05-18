@@ -59,5 +59,3 @@ typings/
 
 # OS-specific files
 .DS_Store
-
-dist/index.js*

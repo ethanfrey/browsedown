@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "types",
+    "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
@@ -13,10 +14,10 @@
     "outDir": "dist",
     "pretty": true,
     "removeComments": true,
-    "rootDir": ".",
+    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
-    "target": "es6"
+    "target": "es5"
   },
   "include": [
     "src/*"

@@ -1,7 +1,5 @@
 import { AbstractIterator, AbstractIteratorOptions } from "abstract-leveldown";
-
-type K = any;
-type V = any;
+import { K, KVPair, V } from "./types";
 
 export class Iterator extends AbstractIterator<K, V> {
   protected stop: boolean;
@@ -49,9 +47,4 @@ export class Iterator extends AbstractIterator<K, V> {
       onEnd: this.finish.bind(this)
     };
   }
-}
-
-interface KVPair {
-  key: K;
-  value: V;
 }
