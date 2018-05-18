@@ -31,8 +31,6 @@ export class Iterator extends AbstractIterator<K, V> {
       console.log("*** STARTED");
       this.started = true;
       this.idb.iterate(this.onItem.bind(this), this.opts);
-      this.callback = callback;
-      return;
     }
     const waiting = this.results.shift();
     if (waiting) {
@@ -66,6 +64,7 @@ export class Iterator extends AbstractIterator<K, V> {
     if (!this.callback) {
       this.results.push(pair);
       console.log("no callback.... storing for later");
+      cursor.continue();
       return;
     }
     if (this.stop || !value) {
@@ -73,7 +72,6 @@ export class Iterator extends AbstractIterator<K, V> {
     }
     const cb = this.callback;
     this.callback = null;
-    // process.nextTick(cb, undefined, pair.key, pair.value);
     cb(undefined, pair.key, pair.value);
     cursor.continue();
   }

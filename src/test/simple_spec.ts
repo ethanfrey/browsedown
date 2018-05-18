@@ -76,8 +76,8 @@ function iterate(factory: Factory, test: Test): void {
             t.equals(val.toString(), batch[i].value);
             i++;
             // this works, process.nextTick doesn't
-            next();
-            // process.nextTick(next);
+            // next();
+            process.nextTick(next);
           } else {
             t.equals(key, undefined);
             t.equals(val, undefined);
