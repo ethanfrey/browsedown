@@ -20,7 +20,6 @@ module.exports = function (config) {
       separator: true
     },
 
-    color: true,
     colors: true,
 
     browserConsoleLogOptions: {
@@ -30,7 +29,7 @@ module.exports = function (config) {
     },
 
     browsers: [
-      // 'ChromeIncognito', 
+      'ChromeIncognito', 
       'Firefox'
     ],
 
