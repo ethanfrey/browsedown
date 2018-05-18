@@ -16,3 +16,4 @@ export interface KVPair {
     key: K;
     value: V;
 }
+export declare const cleanResult: (opts?: GO) => (value: any) => any;

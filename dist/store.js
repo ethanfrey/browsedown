@@ -16,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var abstract_leveldown_1 = require("abstract-leveldown");
 var idb_wrapper_1 = __importDefault(require("idb-wrapper"));
 var iterator_1 = require("./iterator");
+var types_1 = require("./types");
 var BrowseDown = (function (_super) {
     __extends(BrowseDown, _super);
     function BrowseDown(name) {
@@ -44,24 +45,14 @@ var BrowseDown = (function (_super) {
         if (this.idb == null) {
             return callback(new Error("Database not open"));
         }
-        var cleanResult = function (value) {
-            if (value === undefined) {
+        var onSuccess = function (val) {
+            if (val === undefined) {
                 return callback(new Error("NotFound"));
             }
-            var asBuffer = true;
-            if (options.raw || options.asBuffer === false) {
-                asBuffer = false;
-            }
-            var bufValue = value;
-            if (asBuffer) {
-                bufValue =
-                    value instanceof Uint8Array
-                        ? Buffer.from(value.buffer)
-                        : Buffer.from(String(value));
-            }
-            return callback(null, bufValue, key);
+            var value = types_1.cleanResult(options)(val);
+            callback(undefined, value, key);
         };
-        this.idb.get(key, cleanResult, callback);
+        this.idb.get(key, onSuccess, callback);
     };
     BrowseDown.prototype._put = function (key, value, options, callback) {
         if (this.idb == null) {
@@ -81,6 +72,36 @@ var BrowseDown = (function (_super) {
             throw new Error("Database not open");
         }
         return new iterator_1.Iterator(this.idb, options);
+    };
+    BrowseDown.prototype._batch = function (items, options, callback) {
+        if (this.idb == null) {
+            throw new Error("Database not open");
+        }
+        if (items.length === 0) {
+            return process.nextTick(callback);
+        }
+        var prepared = [];
+        for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
+            var item = items_1[_i];
+            if (item.type === "del") {
+                var convert = this.convertEncoding(item.key, "", {});
+                var clean = {
+                    key: convert.key,
+                    type: "remove"
+                };
+                prepared.push(clean);
+            }
+            else {
+                var convert = this.convertEncoding(item.key, item.value, {});
+                var clean = {
+                    key: convert.key,
+                    type: "put",
+                    value: convert.value
+                };
+                prepared.push(clean);
+            }
+        }
+        this.idb.batch(prepared, function () { return callback(); }, callback);
     };
     BrowseDown.prototype.convertEncoding = function (key, value, options) {
         if (options.raw) {

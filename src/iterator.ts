@@ -6,35 +6,38 @@ import { cleanResult, K, KVPair, V } from "./types";
 
 export type NextCallback = (err?: any, key?: K, value?: V) => void;
 
+export interface IteratorOptions extends AbstractIteratorOptions {
+  keyAsBuffer?: boolean;
+  valueAsBuffer?: boolean;
+}
+
 export class Iterator extends AbstractIterator<K, V> {
   protected stop: boolean;
-  protected started: boolean;
   protected results: KVPair[];
   protected callback: NextCallback | null;
   protected opts: IDBWrapper.IterateOptions;
   protected idb: IDBWrapper.IDBStore;
+  protected cleanKey: boolean;
+  protected cleanValue: boolean;
 
-  constructor(idb: IDBWrapper.IDBStore, options: AbstractIteratorOptions) {
+  constructor(idb: IDBWrapper.IDBStore, options: IteratorOptions) {
     super(null);
     this.stop = false;
-    this.started = false;
     this.results = [];
     this.callback = null;
     this.opts = this.convertOptions(idb, options || {});
     this.idb = idb;
+    this.cleanKey = options.keyAsBuffer !== false;
+    this.cleanValue = options.valueAsBuffer !== false;
+    // we start in the constructor to make a snapshot at this
+    // time, not at first iteration
+    this.idb.iterate(this.onItem.bind(this), this.opts);
   }
 
   public _next(callback: NextCallback): void {
     // start the iterator on the first call to next
-    console.log("*** _next");
-    if (!this.started) {
-      console.log("*** STARTED");
-      this.started = true;
-      this.idb.iterate(this.onItem.bind(this), this.opts);
-    }
     const waiting = this.results.shift();
     if (waiting) {
-      console.log("got answer");
       process.nextTick(callback, undefined, waiting.key, waiting.value);
       return;
     }
@@ -47,23 +50,20 @@ export class Iterator extends AbstractIterator<K, V> {
   }
 
   public _end(callback: (err: any) => void): void {
-    console.log("*** ENDED");
     this.stop = true;
     this.callback = null;
     process.nextTick(callback);
   }
 
   protected onItem(value: V, cursor: IDBWrapper.IDBCursor): void {
-    console.log("*** onItem", value, cursor.key);
     const clean = cleanResult();
     const pair = {
-      key: clean(cursor.key),
-      value: clean(cursor.value)
+      key: this.cleanKey ? clean(cursor.key) : cursor.key,
+      value: this.cleanValue ? clean(cursor.value) : cursor.value
     };
 
     if (!this.callback) {
       this.results.push(pair);
-      console.log("no callback.... storing for later");
       cursor.continue();
       return;
     }
@@ -94,10 +94,8 @@ export class Iterator extends AbstractIterator<K, V> {
       limit: opts.limit,
       onEnd: this.finish.bind(this),
       onError: () => {
-        console.log("ERROR");
         this.finish();
       }, // ????
-      // onError: (a: any, b?: any, c?: any) => console.log('horrible error', a, b, c),
       order: opts.reverse ? "DESC" : "ASC"
     };
     if (opts.gt || opts.gte || opts.lt || opts.lte) {

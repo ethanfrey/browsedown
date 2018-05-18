@@ -11,9 +11,8 @@ import { all as putTest } from 'abstract-leveldown/abstract/put-test';
 import { all as putGetDelTest } from 'abstract-leveldown/abstract/put-get-del-test'; 
 
 import { all as batchTest } from 'abstract-leveldown/abstract/batch-test'; 
-// import { all as chainedBatchTest } from 'abstract-leveldown/abstract/chained-batch-test'; 
-// import { all as iteratorTest } from 'abstract-leveldown/abstract/iterator-test';
-import iterTest from 'abstract-leveldown/abstract/iterator-test';
+import { all as chainedBatchTest } from 'abstract-leveldown/abstract/chained-batch-test'; 
+import { all as iteratorTest } from 'abstract-leveldown/abstract/iterator-test';
 
 import { browsedown } from '..';
 import simple from './simple_spec';
@@ -38,23 +37,10 @@ getTest(browsedown, test);
 delTest(browsedown, test);
 putGetDelTest(browsedown, test);
 
-const iteratorTest = (factory, test) => {
-  iterTest.setUp(factory, test, testCommon);
-  iterTest.args(test);
-  iterTest.sequence(test);
-  iterTest.iterator(factory, test, testCommon);
-  // iterTest.snapshot(factory, test, testCommon);
-  iterTest.tearDown(test, testCommon);
-};
-
 // batch tests
 batchTest(browsedown, test);
-// chainedBatchTest(browsedown, test);
+chainedBatchTest(browsedown, test);
 
 // iterator
-try {
-  iteratorTest(browsedown, test);
-} catch (err) {
-  console.log('iterator errror', err);
-}
+iteratorTest(browsedown, test);
 

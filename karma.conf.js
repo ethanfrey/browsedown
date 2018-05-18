@@ -20,13 +20,14 @@ module.exports = function (config) {
       separator: true
     },
 
+    color: true,
     colors: true,
 
-    // browserConsoleLogOptions: {
-    //   level: 'error',
-    //   format: '%b %T: %m',
-    //   terminal: false
-    // },
+    browserConsoleLogOptions: {
+      level: 'error',
+      format: '%b %T: %m',
+      terminal: false
+    },
 
     browsers: [
       // 'ChromeIncognito', 
