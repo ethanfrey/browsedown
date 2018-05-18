@@ -17,18 +17,17 @@ var Iterator = (function (_super) {
         var _this = _super.call(this, null) || this;
         _this.stop = false;
         _this.results = [];
-        var opts = _this.convertOptions(options);
+        var opts = _this.convertOptions(idb, options || {});
         idb.iterate(_this.onItem.bind(_this), opts);
         return _this;
     }
     Iterator.prototype._next = function (callback) {
         var item = this.results.shift();
         if (!item) {
-            this.end(this.finish.bind(this));
-            process.nextTick(callback, new Error("Hit end of iterator"));
+            process.nextTick(callback);
         }
         else {
-            process.nextTick(callback, null, item.key, item.value);
+            process.nextTick(callback, undefined, item.key, item.value);
         }
     };
     Iterator.prototype._end = function (callback) {
@@ -45,10 +44,23 @@ var Iterator = (function (_super) {
     Iterator.prototype.finish = function () {
         this.stop = true;
     };
-    Iterator.prototype.convertOptions = function (options) {
-        return {
-            onEnd: this.finish.bind(this)
+    Iterator.prototype.convertOptions = function (idb, opts) {
+        var result = {
+            autoContinue: true,
+            limit: opts.limit,
+            onEnd: this.finish.bind(this),
+            order: opts.reverse ? "DESC" : "ASC"
         };
+        if (opts.gt || opts.gte || opts.lt || opts.lte) {
+            var rangeOpts = {
+                excludeLower: !!opts.gt,
+                excludeUpper: !!opts.lt,
+                lower: opts.gte || opts.gt,
+                upper: opts.lte || opts.lt
+            };
+            result.keyRange = idb.makeKeyRange(rangeOpts);
+        }
+        return result;
     };
     return Iterator;
 }(abstract_leveldown_1.AbstractIterator));

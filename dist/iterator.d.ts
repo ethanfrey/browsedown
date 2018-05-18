@@ -8,5 +8,5 @@ export declare class Iterator extends AbstractIterator<K, V> {
     _end(callback: (err: any) => void): void;
     protected onItem(value: V, cursor: IDBWrapper.IDBCursor): void;
     protected finish(): void;
-    protected convertOptions(options: AbstractIteratorOptions): IDBWrapper.IterateOptions;
+    protected convertOptions(idb: IDBWrapper.IDBStore, opts: AbstractIteratorOptions): IDBWrapper.IterateOptions;
 }

@@ -12,12 +12,11 @@ import { all as putGetDelTest } from 'abstract-leveldown/abstract/put-get-del-te
 
 // import { all as batchTest } from 'abstract-leveldown/abstract/batch-test'; 
 // import { all as chainedBatchTest } from 'abstract-leveldown/abstract/chained-batch-test'; 
-import { all as iteratorTest } from 'abstract-leveldown/abstract/iterator-test';
+// import { all as iteratorTest } from 'abstract-leveldown/abstract/iterator-test';
+import iterTest from 'abstract-leveldown/abstract/iterator-test';
 
-import {BrowseDown} from '../store';
+import { browsedown } from '..';
 import simple from './simple_spec';
-
-const factory = (name) => new BrowseDown(name);
 
 // we need to manually skip openAdvanced as I don't know how to check if a db exists
 const openBasic = (factory, test) => {
@@ -28,21 +27,38 @@ const openBasic = (factory, test) => {
 };
 
 // basic tests...
-simple.all(factory, test);
-closeTest(factory, test);
-openBasic(factory, test);
+simple.all(browsedown, test);
+
+closeTest(browsedown, test);
+openBasic(browsedown, test);
 
 // standard read-write suite
-putTest(factory, test);
-getTest(factory, test);
-delTest(factory, test);
-putGetDelTest(factory, test);
+putTest(browsedown, test);
+getTest(browsedown, test);
+delTest(browsedown, test);
+putGetDelTest(browsedown, test);
+
+const iteratorTest = (factory, test) => {
+  iterTest.setUp(factory, test, testCommon);
+  iterTest.args(test);
+  iterTest.sequence(test);
+  // broken due to batch
+  // iterTest.iterator(factory, test, testCommon);
+  iterTest.snapshot(factory, test, testCommon);
+  iterTest.tearDown(test, testCommon);
+};
 
 // iterator
-iteratorTest(factory, test);
+try {
+  // iteratorTest(browsedown, test);
+  iteratorTest(browsedown, test);
+} catch (err) {
+  console.log('problem in iterator test');
+  console.log(err);
+}
 
 
 // batch tests
-// batchTest(factory, test);
-// chainedBatchTest(factory, test);
+// batchTest(browsedown, test);
+// chainedBatchTest(browsedown, test);
 

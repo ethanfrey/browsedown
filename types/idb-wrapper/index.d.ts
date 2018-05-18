@@ -57,13 +57,14 @@ declare namespace IDBWrapper {
     excludeLower?: boolean;
     upper?: any; // the upper bound
     excludeUpper?: boolean;
-    only: any;  // use for range of one key, overrides the rest
+    only?: any;  // use for range of one key, overrides the rest
   }
 
   // these are shared between query and iterate
   export interface CommonOptions {
     index?: string;
-    order?: Order; // default: ASC
+    // order?: Order; // default: ASC
+    order?: string; // default: ASC
     filterDuplicates?: boolean; // default: false
     keyRange?: IDBKeyRange;
     onError?: errorFn;
