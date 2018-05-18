@@ -1,9 +1,0 @@
-x Add local type definitions for idb-wrapper
-x Import / export idb-wrapper functions in index.ts
-x Add basic idb-wrapper tests in karma, should pass in browser
-
-x Implement basic (non-batch) operations like level.js
-x Basic test through leveldown interface
-
-x Add abstract-leveldown test suite
-* Implement all failing test functionality
