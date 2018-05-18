@@ -22,11 +22,11 @@ module.exports = function (config) {
 
     colors: true,
 
-    browserConsoleLogOptions: {
-      level: 'error',
-      format: '%b %T: %m',
-      terminal: false
-    },
+    // browserConsoleLogOptions: {
+    //   level: 'error',
+    //   format: '%b %T: %m',
+    //   terminal: false
+    // },
 
     browsers: [
       // 'ChromeIncognito', 

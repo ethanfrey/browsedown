@@ -10,7 +10,7 @@ import { all as getTest } from 'abstract-leveldown/abstract/get-test';
 import { all as putTest } from 'abstract-leveldown/abstract/put-test'; 
 import { all as putGetDelTest } from 'abstract-leveldown/abstract/put-get-del-test'; 
 
-// import { all as batchTest } from 'abstract-leveldown/abstract/batch-test'; 
+import { all as batchTest } from 'abstract-leveldown/abstract/batch-test'; 
 // import { all as chainedBatchTest } from 'abstract-leveldown/abstract/chained-batch-test'; 
 // import { all as iteratorTest } from 'abstract-leveldown/abstract/iterator-test';
 import iterTest from 'abstract-leveldown/abstract/iterator-test';
@@ -27,36 +27,33 @@ const openBasic = (factory, test) => {
 };
 
 // basic tests...
-simple.all(browsedown, test);
+// simple.all(browsedown, test);
 
-closeTest(browsedown, test);
-openBasic(browsedown, test);
+// closeTest(browsedown, test);
+// openBasic(browsedown, test);
 
-// standard read-write suite
-putTest(browsedown, test);
-getTest(browsedown, test);
-delTest(browsedown, test);
-putGetDelTest(browsedown, test);
+// // standard read-write suite
+// putTest(browsedown, test);
+// getTest(browsedown, test);
+// delTest(browsedown, test);
+// putGetDelTest(browsedown, test);
 
 const iteratorTest = (factory, test) => {
   iterTest.setUp(factory, test, testCommon);
   iterTest.args(test);
   iterTest.sequence(test);
   // broken due to batch
-  // iterTest.iterator(factory, test, testCommon);
+  iterTest.iterator(factory, test, testCommon);
   iterTest.snapshot(factory, test, testCommon);
   iterTest.tearDown(test, testCommon);
 };
 
 // iterator
 try {
-  // iteratorTest(browsedown, test);
   iteratorTest(browsedown, test);
 } catch (err) {
-  console.log('problem in iterator test');
-  console.log(err);
+  console.log('iterator errror', err);
 }
-
 
 // batch tests
 // batchTest(browsedown, test);

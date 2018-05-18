@@ -89,6 +89,20 @@ declare namespace IDBWrapper {
     keyField?: string;
   }
 
+
+  export type BatchItem = PutItem | RemoveItem;
+
+  interface PutItem {
+    type: 'put';
+    key: any;
+    value: any;
+  }
+
+  interface RemoveItem {
+    type: 'remove';
+    key: any;
+  }
+
   export interface IDBStore {
     autoIncrement: boolean;
     db: IDBDatabase;
@@ -107,7 +121,7 @@ declare namespace IDBWrapper {
 
     new (kwargs?: InitOptions, onStoreReady?: readyFn): IDBStore;
 
-    // batch
+    batch(dataArray: BatchItem[], onSuccess: readyFn, onError: errorFn): IDBTransaction;
     clear(onSuccess?: readyFn, onError?: errorFn): IDBTransaction;
     count(onSuccess: readyFn, options?: CountOptions): IDBTransaction;
     deleteDatabase(onSuccess?: readyFn, onError?: errorFn): void;
@@ -142,6 +156,8 @@ declare namespace IDBWrapper {
     // This is all we should touch during iteration....
     readonly key: any;
     readonly value: any;
+
+    continue(): void;
   }
 
   // interface IDBObjectStore {}

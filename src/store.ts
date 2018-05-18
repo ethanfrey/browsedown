@@ -1,8 +1,12 @@
-import { AbstractIteratorOptions, AbstractLevelDOWN } from "abstract-leveldown";
+import {
+  AbstractIteratorOptions,
+  AbstractLevelDOWN,
+  Batch
+} from "abstract-leveldown";
 import IDBStore from "idb-wrapper";
 
 import { Iterator } from "./iterator";
-import { BO, DO, GO, IO, K, KVPair, O, PO, V } from "./types";
+import { BO, cleanResult, DO, GO, IO, K, KVPair, O, PO, V } from "./types";
 
 export class BrowseDown extends AbstractLevelDOWN<K, V, O, PO, GO, DO, IO, BO> {
   protected idb: IDBWrapper.IDBStore | null;
@@ -39,27 +43,15 @@ export class BrowseDown extends AbstractLevelDOWN<K, V, O, PO, GO, DO, IO, BO> {
     if (this.idb == null) {
       return callback(new Error("Database not open"));
     }
-    const cleanResult = (value: any) => {
-      if (value === undefined) {
+    const onSuccess = (val: any) => {
+      if (val === undefined) {
         // 'NotFound' error, consistent with LevelDOWN API
         return callback(new Error("NotFound"));
       }
-      // by default return buffers, unless explicitly told not to
-      let asBuffer = true;
-      if (options.raw || options.asBuffer === false) {
-        asBuffer = false;
-      }
-      let bufValue: any = value;
-      if (asBuffer) {
-        // TODO: revisit this
-        bufValue =
-          value instanceof Uint8Array
-            ? Buffer.from(value.buffer)
-            : Buffer.from(String(value));
-      }
-      return callback(null, bufValue, key);
+      const value = cleanResult(options)(val);
+      callback(undefined, value, key);
     };
-    this.idb.get(key, cleanResult, callback);
+    this.idb.get(key, onSuccess, callback);
   }
 
   public _put(
@@ -85,7 +77,7 @@ export class BrowseDown extends AbstractLevelDOWN<K, V, O, PO, GO, DO, IO, BO> {
     this.idb.put(obj.key, obj.value, () => callback(), callback);
   }
 
-  public _del(key: K, options: DO, callback: (err?: any) => any): void {
+  public _del(key: K, options: DO, callback: (err?: any) => void): void {
     if (this.idb == null) {
       return callback(new Error("Database not open"));
     }
@@ -97,6 +89,42 @@ export class BrowseDown extends AbstractLevelDOWN<K, V, O, PO, GO, DO, IO, BO> {
       throw new Error("Database not open");
     }
     return new Iterator(this.idb, options);
+  }
+
+  public _batch(
+    items: ReadonlyArray<Batch<K, V>>,
+    options: BO,
+    callback: (err?: any) => void
+  ): void {
+    if (this.idb == null) {
+      throw new Error("Database not open");
+    }
+
+    if (items.length === 0) {
+      return process.nextTick(callback);
+    }
+
+    const prepared: IDBWrapper.BatchItem[] = [];
+    for (const item of items) {
+      if (item.type === "del") {
+        const convert = this.convertEncoding(item.key, "", {});
+        const clean: IDBWrapper.BatchItem = {
+          key: convert.key,
+          type: "remove"
+        };
+        prepared.push(clean);
+      } else {
+        const convert = this.convertEncoding(item.key, item.value, {});
+        const clean: IDBWrapper.BatchItem = {
+          key: convert.key,
+          type: "put",
+          value: convert.value
+        };
+        prepared.push(clean);
+      }
+    }
+
+    this.idb.batch(prepared, () => callback(), callback);
   }
 
   private convertEncoding(key: any, value: any, options: PO): KVPair {
