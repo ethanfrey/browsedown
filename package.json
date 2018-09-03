@@ -2,18 +2,18 @@
   "name": "browsedown",
   "description": "Browser implementation of level-down, using Indexdb-wrapper",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "ethanfrey <ethanfrey@users.noreply.github.com>",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "homepage": "https://github.com/confio/browsedown",
+  "homepage": "https://github.com/ethanfrey/browsedown",
   "repository": {
     "type": "git",
-    "url": "https://github.com/confio/browsedown.git"
+    "url": "https://github.com/ethanfrey/browsedown.git"
   },
   "bugs": {
-    "url": "https://github.com/confio/browsedown/issues"
+    "url": "https://github.com/ethanfrey/browsedown/issues"
   },
   "scripts": {
     "build": "yarn format && yarn lint && yarn transpile",
