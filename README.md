@@ -1,5 +1,7 @@
 # BrowseDown
 
+**WARNING**: Unmaintained, uses deprecated dependencies, and should not be used. [level-up](https://github.com/Level/level.js) has been revived and I encourage you to use maintained software
+
 BrowseDown is an browser-based alternative to level-down,
 which can be used as a backend for 
 [level-up](https://github.com/Level/levelup),
